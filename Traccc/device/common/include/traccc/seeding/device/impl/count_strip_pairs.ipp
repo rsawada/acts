@@ -15,7 +15,7 @@ namespace traccc::device {
 template <typename detector_t>
 TRACCC_HOST_DEVICE inline void count_strip_pairs(
     const global_index_t globalIndex, typename detector_t::view det_view,
-    const edm::measurement_collection<default_algebra>::const_view&
+    const edm::measurement_collection::const_view&
         measurements_view,
     const strip_measurement_surface_info_collection_types::const_view&
         surface_infos_view,
@@ -24,7 +24,7 @@ TRACCC_HOST_DEVICE inline void count_strip_pairs(
     unsigned int& n_barrel_pairs, unsigned int& n_endcap_pairs,
     unsigned int& n_endcap_boundary_pairs) {
 
-    const edm::measurement_collection<default_algebra>::const_device
+    const edm::measurement_collection::const_device
         measurements(measurements_view);
     const strip_measurement_surface_info_collection_types::const_device
         surface_infos(surface_infos_view);
@@ -46,8 +46,8 @@ TRACCC_HOST_DEVICE inline void count_strip_pairs(
         const detray::tracking_surface outer_surface{
             det, outer_measurement.surface_link()};
 
-        if ((static_cast<int>(inner_surface.shape_id()) == 0) &&
-            (static_cast<int>(outer_surface.shape_id()) == 0)) {
+        if ((inner_surface.shape_id() == detector_t::device::masks::id::e_rectangle2D) &&
+            (outer_surface.shape_id() == detector_t::device::masks::id::e_rectangle2D)) {
             if (details::is_compatible_barrel_strip_pair(
                     det, inner_measurement, outer_measurement,
                     barrel_config)) {

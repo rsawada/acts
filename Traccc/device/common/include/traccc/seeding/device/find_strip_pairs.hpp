@@ -21,7 +21,7 @@ namespace traccc::device {
 template <typename detector_t>
 TRACCC_HOST_DEVICE inline void find_strip_pairs(
     global_index_t globalIndex, typename detector_t::view det_view,
-    const edm::measurement_collection<default_algebra>::const_view&
+    const edm::measurement_collection::const_view&
         measurements_view,
     const strip_measurement_surface_info_collection_types::const_view&
         surface_infos_view,

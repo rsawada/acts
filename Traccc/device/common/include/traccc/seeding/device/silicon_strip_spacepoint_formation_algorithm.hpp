@@ -29,7 +29,7 @@ namespace traccc::device {
 class silicon_strip_spacepoint_formation_algorithm
     : public algorithm<edm::spacepoint_collection::buffer(
           const detector_buffer&,
-          const edm::measurement_collection<default_algebra>::const_view&,
+          const edm::measurement_collection::const_view&,
           const strip_measurement_surface_info_collection_types::const_view&)>,
       public messaging,
       public algorithm_base {
@@ -56,7 +56,7 @@ class silicon_strip_spacepoint_formation_algorithm
     ///
     output_type operator()(
         const detector_buffer& det,
-        const edm::measurement_collection<default_algebra>::const_view&
+        const edm::measurement_collection::const_view&
             measurements,
         const strip_measurement_surface_info_collection_types::const_view&
             surface_infos) const override;
@@ -68,12 +68,12 @@ class silicon_strip_spacepoint_formation_algorithm
     /// Payload for the @c count_strip_pairs_kernel function.
     struct count_strip_pairs_kernel_payload {
         /// The number of measurements in the event.
-        edm::measurement_collection<default_algebra>::const_view::size_type
+        edm::measurement_collection::const_view::size_type
             n_measurements;
         /// The detector object.
         const detector_buffer& detector;
         /// The input measurements.
-        const edm::measurement_collection<default_algebra>::const_view&
+        const edm::measurement_collection::const_view&
             measurements;
         /// Per-measurement strip surface information.
         const strip_measurement_surface_info_collection_types::const_view&
@@ -99,12 +99,12 @@ class silicon_strip_spacepoint_formation_algorithm
     /// Payload for the @c find_strip_pairs_kernel function.
     struct find_strip_pairs_kernel_payload {
         /// The number of measurements in the event.
-        edm::measurement_collection<default_algebra>::const_view::size_type
+        edm::measurement_collection::const_view::size_type
             n_measurements;
         /// The detector object.
         const detector_buffer& detector;
         /// The input measurements.
-        const edm::measurement_collection<default_algebra>::const_view&
+        const edm::measurement_collection::const_view&
             measurements;
         /// Per-measurement strip surface information.
         const strip_measurement_surface_info_collection_types::const_view&
@@ -130,7 +130,7 @@ class silicon_strip_spacepoint_formation_algorithm
         /// The detector object.
         const detector_buffer& detector;
         /// The input measurements.
-        const edm::measurement_collection<default_algebra>::const_view&
+        const edm::measurement_collection::const_view&
             measurements;
         /// The compatible barrel strip pairs.
         const strip_pair_collection_types::const_view& pairs;

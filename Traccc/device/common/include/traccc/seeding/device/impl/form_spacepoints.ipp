@@ -28,7 +28,7 @@ TRACCC_HOST_DEVICE inline void form_spacepoints(
 template <typename detector_t>
 TRACCC_HOST_DEVICE inline void form_pixel_spacepoints(
     const global_index_t globalIndex, typename detector_t::view det_view,
-    const edm::measurement_collection<default_algebra>::const_view&
+    const edm::measurement_collection::const_view&
         measurements_view,
     edm::spacepoint_collection::view spacepoints_view) {
 
@@ -64,12 +64,12 @@ TRACCC_HOST_DEVICE inline void form_pixel_spacepoints(
 template <typename detector_t>
 TRACCC_HOST_DEVICE inline void form_strip_spacepoints(
     const global_index_t globalIndex, typename detector_t::view det_view,
-    const edm::measurement_collection<default_algebra>::const_view&
+    const edm::measurement_collection::const_view&
         measurements_view,
     edm::spacepoint_collection::view spacepoints_view) {
 
     // Set up the input container(s).
-    const edm::measurement_collection<default_algebra>::const_device
+    const edm::measurement_collection::const_device
         measurements(measurements_view);
 
     // Check if anything needs to be done
@@ -89,7 +89,7 @@ TRACCC_HOST_DEVICE inline void form_strip_spacepoints(
     if (details::is_valid_strip_measurement(meas)) {
         const edm::spacepoint_collection::device::size_type i =
             spacepoints.push_back_default();
-        edm::spacepoint_collection::device::proxy_type sp = spacepoints.at(i);
+        edm::spacepoint sp = spacepoints.at(i);
         traccc::details::fill_strip_spacepoint(sp, det, meas);
         sp.measurement_index_1() = globalIndex;
         sp.measurement_index_2() =
@@ -100,14 +100,14 @@ TRACCC_HOST_DEVICE inline void form_strip_spacepoints(
 template <typename detector_t>
 TRACCC_HOST_DEVICE inline void form_barrel_strip_spacepoints(
     const global_index_t globalIndex, typename detector_t::view det_view,
-    const edm::measurement_collection<default_algebra>::const_view&
+    const edm::measurement_collection::const_view&
         measurements_view,
     const strip_pair_collection_types::const_view& pairs_view,
     const strip_measurement_surface_info_collection_types::const_view&
         surface_infos_view,
     edm::spacepoint_collection::view spacepoints_view) {
 
-    const edm::measurement_collection<default_algebra>::const_device
+    const edm::measurement_collection::const_device
         measurements(measurements_view);
     const strip_pair_collection_types::const_device pairs(pairs_view);
     const strip_measurement_surface_info_collection_types::const_device
@@ -126,14 +126,14 @@ TRACCC_HOST_DEVICE inline void form_barrel_strip_spacepoints(
 
     const edm::spacepoint_collection::device::size_type i =
         spacepoints.push_back_default();
-    edm::spacepoint_collection::device::proxy_type sp = spacepoints.at(i);
+    edm::spacepoint sp = spacepoints.at(i);
 
     const detray::tracking_surface first_surface{det,
                                                   first_meas.surface_link()};
     const detray::tracking_surface second_surface{det,
                                                    second_meas.surface_link()};
-    if ((static_cast<int>(first_surface.shape_id()) == 0) &&
-        (static_cast<int>(second_surface.shape_id()) == 0)) {
+    if ((first_surface.shape_id() == detector_t::device::masks::id::e_rectangle2D) &&
+        (second_surface.shape_id() == detector_t::device::masks::id::e_rectangle2D)) {
         const strip_measurement_surface_info first_material =
             surface_infos.at(pair.measurement_index_1);
         const strip_measurement_surface_info second_material =
