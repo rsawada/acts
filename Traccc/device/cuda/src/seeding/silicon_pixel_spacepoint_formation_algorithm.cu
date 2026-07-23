@@ -20,10 +20,10 @@ namespace kernels {
 
 /// Kernel wrapping @c device::form_pixel_spacepoints
 template <typename detector_t>
-__global__ void __launch_bounds__(1024, 1)
-    form_pixel_spacepoints_kernel(typename detector_t::view detector,
-                     edm::measurement_collection::const_view measurements,
-                     edm::spacepoint_collection::view spacepoints)
+__global__ void __launch_bounds__(1024, 1) form_pixel_spacepoints_kernel(
+    typename detector_t::view detector,
+    edm::measurement_collection::const_view measurements,
+    edm::spacepoint_collection::view spacepoints)
     requires(traccc::is_detector_traits<detector_t>)
 {
     device::form_pixel_spacepoints<detector_t>(details::global_index1(),

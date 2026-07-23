@@ -35,7 +35,7 @@ class silicon_strip_spacepoint_formation_algorithm
     ///
     silicon_strip_spacepoint_formation_algorithm(
         const traccc::memory_resource& mr, vecmem::copy& copy,
-        cuda::stream& str,
+        const stream_wrapper& str,
         std::unique_ptr<const Logger> logger = getDummyLogger().clone());
 
     private:

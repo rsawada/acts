@@ -24,8 +24,7 @@ namespace kernels {
 template <typename detector_t>
 __global__ void __launch_bounds__(1024, 1) count_strip_pairs_kernel(
     typename detector_t::view detector,
-    typename edm::measurement_collection<
-        typename detector_t::device::algebra_type>::const_view measurements,
+    edm::measurement_collection::const_view measurements,
     strip_measurement_surface_info_collection_types::const_view surface_infos,
     barrel_strip_pair_config barrel_config,
     endcap_strip_pair_config endcap_config, unsigned int& n_pairs,
@@ -44,8 +43,7 @@ __global__ void __launch_bounds__(1024, 1) count_strip_pairs_kernel(
 template <typename detector_t>
 __global__ void __launch_bounds__(1024, 1) find_strip_pairs_kernel(
     typename detector_t::view detector,
-    typename edm::measurement_collection<
-        typename detector_t::device::algebra_type>::const_view measurements,
+    edm::measurement_collection::const_view measurements,
     strip_measurement_surface_info_collection_types::const_view surface_infos,
     barrel_strip_pair_config barrel_config,
     endcap_strip_pair_config endcap_config, unsigned int& pair_position,
@@ -62,8 +60,7 @@ __global__ void __launch_bounds__(1024, 1) find_strip_pairs_kernel(
 template <typename detector_t>
 __global__ void __launch_bounds__(1024, 1) form_barrel_strip_spacepoints_kernel(
     typename detector_t::view detector,
-    typename edm::measurement_collection<
-        typename detector_t::device::algebra_type>::const_view measurements,
+    edm::measurement_collection::const_view measurements,
     strip_pair_collection_types::const_view pairs,
     strip_measurement_surface_info_collection_types::const_view surface_infos,
     edm::spacepoint_collection::view spacepoints)
@@ -79,7 +76,7 @@ __global__ void __launch_bounds__(1024, 1) form_barrel_strip_spacepoints_kernel(
 silicon_strip_spacepoint_formation_algorithm::
     silicon_strip_spacepoint_formation_algorithm(
         const traccc::memory_resource& mr, vecmem::copy& copy,
-        cuda::stream& str, std::unique_ptr<const Logger> logger)
+        const stream_wrapper& str, std::unique_ptr<const Logger> logger)
     : device::silicon_strip_spacepoint_formation_algorithm(mr, copy,
                                                            std::move(logger)),
       cuda::algorithm_base(str) {}

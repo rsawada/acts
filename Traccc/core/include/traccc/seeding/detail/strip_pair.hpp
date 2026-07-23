@@ -130,8 +130,8 @@ TRACCC_HOST_DEVICE inline bool is_compatible_barrel_strip_pair(
         det, outer_measurement.surface_link()};
 
     // The initial implementation handles barrel rectangle surfaces only.
-    if ((static_cast<int>(inner_surface.shape_id()) != 0) ||
-        (static_cast<int>(outer_surface.shape_id()) != 0)) {
+    if ((inner_surface.shape_id() != detector_t::masks::id::e_rectangle2D) ||
+        (outer_surface.shape_id() != detector_t::masks::id::e_rectangle2D)) {
         return false;
     }
 
@@ -213,8 +213,8 @@ TRACCC_HOST_DEVICE inline bool is_compatible_endcap_strip_pair(
         det, second_measurement.surface_link()};
 
     // Endcap strip modules are represented by annulus-like surfaces.
-    if ((static_cast<int>(first_surface.shape_id()) == 0) ||
-        (static_cast<int>(second_surface.shape_id()) == 0)) {
+    if ((first_surface.shape_id() == detector_t::masks::id::e_rectangle2D) ||
+        (second_surface.shape_id() == detector_t::masks::id::e_rectangle2D)) {
         return false;
     }
 
@@ -263,8 +263,8 @@ TRACCC_HOST_DEVICE inline bool is_compatible_strip_pair(
     const detray::tracking_surface second_surface{
         det, second_measurement.surface_link()};
 
-    if ((static_cast<int>(first_surface.shape_id()) == 0) &&
-        (static_cast<int>(second_surface.shape_id()) == 0)) {
+    if ((first_surface.shape_id() == detector_t::masks::id::e_rectangle2D) &&
+        (second_surface.shape_id() == detector_t::masks::id::e_rectangle2D)) {
         return is_compatible_barrel_strip_pair(det, first_measurement,
                                                second_measurement,
                                                barrel_config);

@@ -22,13 +22,13 @@ silicon_strip_spacepoint_formation_algorithm::
 
 auto silicon_strip_spacepoint_formation_algorithm::operator()(
     const detector_buffer& det,
-    const edm::measurement_collection<default_algebra>::const_view&
+    const edm::measurement_collection::const_view&
         measurements,
     const strip_measurement_surface_info_collection_types::const_view&
         surface_infos) const -> output_type {
 
     // Get the number of measurements. In an asynchronous way if possible.
-    edm::measurement_collection<default_algebra>::const_view::size_type
+    edm::measurement_collection::const_view::size_type
         n_measurements = 0u;
     if (mr().host) {
         vecmem::async_size size = copy().get_size(measurements, *(mr().host));
